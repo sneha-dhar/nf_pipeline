@@ -1,4 +1,4 @@
-process FASTQC {
+process FASTQC_TRIMMED {
 
     input:
     path reads
@@ -11,8 +11,3 @@ process FASTQC {
     fastqc $reads
     """
 }
-
-
-
-
-
