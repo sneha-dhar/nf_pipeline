@@ -1,64 +1,46 @@
-# Nextflow DSL-2 FASTQ Quality Control Pipeline
+# Nextflow QC Pipeline (FastQC + Trimming)
 
-## 📌 Project Overview
-This project demonstrates the development of a **Nextflow DSL-2 based bioinformatics pipeline** for preprocessing of FASTQ sequencing data.  
-The pipeline performs **quality control before and after read trimming**, ensuring high-quality data for downstream analysis.
+## Overview
+This project implements a simple Nextflow pipeline to perform quality control on raw FASTQ sequencing data.  
+The pipeline includes:
+1. Quality check of raw reads using FastQC  
+2. Trimming of reads using Trimmomatic  
+3. Quality check of trimmed reads using FastQC  
 
-The workflow was implemented using **modular design principles of DSL-2**, where each analysis step is written as an independent and reusable module.
-
----
-
-## 🧬 Pipeline Steps
-The pipeline consists of the following steps:
-
-1. **Initial Quality Control (FastQC)**
-   - Performs quality assessment on raw FASTQ files.
-   - Generates reports on read quality, GC content, sequence length distribution, etc.
-
-2. **Read Trimming (Trimmomatic)**
-   - Removes low-quality bases and adapters from raw reads.
-   - Improves overall sequencing data quality.
-
-3. **Post-trimming Quality Control (FastQC)**
-   - Runs FastQC again on trimmed reads.
-   - Confirms improvement in read quality after trimming.
-
----
-
-## 🛠 Tools & Technologies Used
-- **Nextflow (DSL-2)**
-- **FastQC**
-- **Trimmomatic**
-- Linux / Ubuntu (WSL)
-- Git & GitHub for version control
-
----
-
-## 📂 Project Structure
+## Pipeline Structure
 nf_pipeline/
-│── main.nf
-│── nextflow.config
-│── README.md
-│
-├── data/
-│ └── sample_R1.fastq.gz
-│
+├── main.nf
+├── nextflow.config
+├── README.md
 ├── modules/
 │ ├── fastqc.nf
 │ ├── trim.nf
 │ └── fastqc_trimmed.nf
-│
-└── workflows/
-└── workflow.nf
+├── workflows/
+│ └── workflow.nf
+└── data/
 
+## Tools Used
+- Nextflow  
+- FastQC  
+- Trimmomatic  
 
----
+## Input
+- Single FASTQ file placed in the `data/` directory  
 
-## ▶️ How to Run the Pipeline
+## Workflow Description
+- Raw FASTQ files are read from the `data/` directory  
+- FastQC is performed on raw reads  
+- Trimmomatic trims low-quality bases and adapters  
+- FastQC is performed again on trimmed reads  
 
-1. Place FASTQ files inside the `data/` directory.
-2. Run the pipeline using:
+## How to Run
+From the project directory:
+
 ```bash
 nextflow run main.nf
 
-Outputs will be generated in the work/ and results/ directories.
+To resume from cache:
+
+nextflow run main.nf -resum
+
