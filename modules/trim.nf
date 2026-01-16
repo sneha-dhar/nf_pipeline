@@ -1,13 +1,9 @@
 process TRIM {
-
     tag "$sample_id"
-
     input:
     tuple val(sample_id), path(reads)
-
     output:
     tuple val(sample_id), path("*_trimmed.fastq.gz")
-
     script:
     """
     trimmomatic SE \
@@ -16,11 +12,3 @@ process TRIM {
       SLIDINGWINDOW:4:20 MINLEN:36
     """
 }
-
-
-
-
-
-
-
-
