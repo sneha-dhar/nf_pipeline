@@ -1,19 +1,24 @@
-include { FASTQC } from '../modules/fastqc.nf'
-include { TRIM } from '../modules/trim.nf'
-include { FASTQC_TRIMMED } from '../modules/fastqc_trimmed.nf'
+include { FASTQC as FASTQC_RAW } from '../modules/fastqc.nf'
+include { TRIM }                from '../modules/trim.nf'
+include { FASTQC as FASTQC_TRIMMED } from '../modules/fastqc.nf'
 
-workflow PIPELINE {
+workflow QC_PIPELINE {
 
-    Channel
-        .fromPath('data/*.fastq.gz')
-        .set { raw_reads }
+    reads_ch = Channel
+        .fromPath("data/*.fastq.gz")
+        .map { file -> tuple(file.baseName, file) }
 
-    FASTQC(raw_reads)
+    // STEP 1: FastQC on raw reads
+    FASTQC_RAW(reads_ch)
 
-    trimmed_reads = TRIM(raw_reads)
+    // STEP 2: Trimming
+    trimmed_ch = TRIM(reads_ch)
 
-    FASTQC_TRIMMED(trimmed_reads)
+    // STEP 3: FastQC on trimmed reads
+    FASTQC_TRIMMED(trimmed_ch)
 }
+
+
 
 
 

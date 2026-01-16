@@ -1,19 +1,22 @@
 process TRIM {
 
+    tag "$sample_id"
+
     input:
-    path reads
+    tuple val(sample_id), path(reads)
 
     output:
-    path "*.trimmed.fastq.gz"
+    tuple val(sample_id), path("*_trimmed.fastq.gz")
 
     script:
     """
-    trimmomatic SE -phred33 \
-        $reads \
-        ${reads.simpleName}.trimmed.fastq.gz \
-        LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
+    trimmomatic SE \
+      $reads \
+      ${sample_id}_trimmed.fastq.gz \
+      SLIDINGWINDOW:4:20 MINLEN:36
     """
 }
+
 
 
 

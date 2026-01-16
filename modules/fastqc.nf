@@ -1,9 +1,12 @@
 process FASTQC {
 
+    tag "$sample_id"
+
     input:
-    path reads
+    tuple val(sample_id), path(reads)
 
     output:
+    path "*_fastqc.html"
     path "*_fastqc.zip"
 
     script:
@@ -11,6 +14,7 @@ process FASTQC {
     fastqc $reads
     """
 }
+
 
 
 
