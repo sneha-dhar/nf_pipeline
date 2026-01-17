@@ -1,13 +1,52 @@
-# Nextflow QC Pipeline (FastQC + Trimming)
+# Nextflow QC and Alignment Pipeline
 
 ## Overview
-This project implements a simple Nextflow pipeline to perform quality control on raw FASTQ sequencing data.  
-The pipeline includes:
-1. Quality check of raw reads using FastQC  
-2. Trimming of reads using Trimmomatic  
-3. Quality check of trimmed reads using FastQC  
+This project implements a basic **Nextflow pipeline** for preprocessing and alignment of sequencing data.  
+The pipeline performs **quality control, trimming, post-trimming quality check, and read alignment** on a single FASTQ file.
 
-## Pipeline Structure
+Only **code files** are tracked in GitHub.  
+Input data, intermediate files, and results are **not pushed*
+
+## Pipeline Steps
+### Step 1: Raw Read Quality Control (FastQC)
+- Performs quality assessment on the raw FASTQ file
+- Generates reports for base quality, GC content, and adapter contamination
+**Tool used:**
+- FastQC
+
+### Step 2: Read Trimming
+- Removes low-quality bases and adapters from raw reads
+- Improves read quality for downstream analysis
+**Tool used:**
+- Trimmomatic (Single-end mode)
+
+### Step 3: Quality Control After Trimming
+- Runs FastQC again on the trimmed reads
+- Confirms improvement in read quality after trimming
+**Tool used:**
+- FastQC
+
+### Step 4: Read Alignment
+- Aligns trimmed reads to the reference genome
+- Produces alignment output in BAM format
+- BAM file is generated inside the Nextflow `work/` directory
+**Tool used:**
+- Aligner used in workflow (as configured in the pipeline)
+
+## Input Data
+Single FASTQ file:
+data/sample_R1.fastq
+
+Input data is used locally for execution and is **not included** in the GitHub repository.
+
+## Output
+- FastQC reports (raw and trimmed)
+- Trimmed FASTQ file
+- Alignment output (BAM file)
+
+All outputs are stored in the Nextflow `work/` directory by default.
+
+## Project Structure
 nf_pipeline/
 ├── main.nf
 ├── nextflow.config
@@ -15,32 +54,16 @@ nf_pipeline/
 ├── modules/
 │ ├── fastqc.nf
 │ ├── trim.nf
-│ └── fastqc_trimmed.nf
-├── workflows/
-│ └── workflow.nf
-└── data/
+│ └── align.nf
+└── workflows/
+└── workflow.nf
 
-## Tools Used
-- Nextflow  
-- FastQC  
-- Trimmomatic  
 
-## Input
-- Single FASTQ file placed in the `data/` directory  
+## How to Run the Pipeline
 
-## Workflow Description
-- Raw FASTQ files are read from the `data/` directory  
-- FastQC is performed on raw reads  
-- Trimmomatic trims low-quality bases and adapters  
-- FastQC is performed again on trimmed reads  
-
-## How to Run
 From the project directory:
-
 ```bash
 nextflow run main.nf
+nextflow run main.nf -resume
 
-To resume from cache:
-
-nextflow run main.nf -resum
 
