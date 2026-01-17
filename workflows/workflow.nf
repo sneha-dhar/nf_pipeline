@@ -1,6 +1,7 @@
 include { FASTQC as FASTQC_RAW } from '../modules/fastqc.nf'
 include { TRIM }                from '../modules/trim.nf'
 include { FASTQC as FASTQC_TRIMMED } from '../modules/fastqc.nf'
+include { ALIGN }                    from '../modules/align.nf'
 workflow QC_PIPELINE {
     reads_ch = Channel
         .fromPath("data/*.fastq.gz")
@@ -11,4 +12,6 @@ workflow QC_PIPELINE {
     trimmed_ch = TRIM(reads_ch)
     // STEP 3: FastQC on trimmed reads
     FASTQC_TRIMMED(trimmed_ch)
+   // STEP 4: Alignment
+    ALIGN(trimmed_ch, file("reference/chr22.fa")) 
 }

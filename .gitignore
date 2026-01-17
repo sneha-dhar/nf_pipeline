@@ -6,3 +6,7 @@ data/
 *.html
 *.fastq.gz
 .vscode/
+*.bam
+*.sam
+.results/
+results/
