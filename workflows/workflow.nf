@@ -1,17 +1,29 @@
 include { FASTQC as FASTQC_RAW } from '../modules/fastqc.nf'
-include { TRIM }                from '../modules/trim.nf'
+include { TRIM } from '../modules/trim.nf'
 include { FASTQC as FASTQC_TRIMMED } from '../modules/fastqc.nf'
-include { ALIGN }                    from '../modules/align.nf'
+include { ALIGN } from '../modules/align.nf'
+include { VARIANT_CALLING } from '../modules/variant_calling.nf'
+
 workflow QC_PIPELINE {
+
     reads_ch = Channel
         .fromPath("data/*.fastq.gz")
         .map { file -> tuple(file.baseName, file) }
+
     // STEP 1: FastQC on raw reads
     FASTQC_RAW(reads_ch)
+
     // STEP 2: Trimming
     trimmed_ch = TRIM(reads_ch)
+
     // STEP 3: FastQC on trimmed reads
     FASTQC_TRIMMED(trimmed_ch)
-   // STEP 4: Alignment
-    ALIGN(trimmed_ch, file("reference/chr22.fa")) 
+
+    // STEP 4: Alignment
+aligned_ch = ALIGN(trimmed_ch, file("data/reference/chr22.fa"))
+
+    // STEP 5: Variant Calling (INPUT = BAM)
+    VARIANT_CALLING(aligned_ch, file("data/reference/chr22.fa"))
+
 }
+
