@@ -104,6 +104,7 @@ nf_pipeline/
     └── workflow.nf
 
 ---
+```
 
 ## Clone the Git Repository
 
@@ -112,7 +113,7 @@ git clone <your-github-repo-url>
 cd nf_pipeline
 
 ---
-
+```
 ## Create and Activate Conda Environment
 
 
@@ -123,7 +124,7 @@ conda activate bnf
 ## How to Run the Pipeline
 
 From the project directory
-
+```bash
 nextflow run main.nf
 nextflow run main.nf -resume
 
