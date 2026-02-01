@@ -7,7 +7,9 @@ process ALIGN {
     tuple val(sample_id), path("${sample_id}.bam")
     script:
     """
-    bwa mem ${reference} ${reads} | samtools sort -o ${sample_id}.bam
-    samtools index ${sample_id}.bam
+    ${params.bwa_bin} mem ${reference} ${reads} |
+        ${params.samtools_bin} sort -o ${sample_id}.bam
+
+    ${params.samtools_bin} index ${sample_id}.bam
     """
 }

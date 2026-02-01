@@ -11,7 +11,7 @@ process VARIANT_CALLING {
 
     script:
     """
-    bcftools mpileup -f $reference $bam_file \
-    | bcftools call -mv -Ov -o ${sample_id}.vcf
+    ${params.bcftools} mpileup -f ${reference} ${bam_file} |
+        ${params.bcftools} call -mv -Ov -o ${sample_id}.vcf
     """
 }

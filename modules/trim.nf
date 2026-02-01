@@ -6,9 +6,10 @@ process TRIM {
     tuple val(sample_id), path("*_trimmed.fastq.gz")
     script:
     """
-    trimmomatic SE \
-      $reads \
-      ${sample_id}_trimmed.fastq.gz \
-      SLIDINGWINDOW:4:20 MINLEN:36
+    ${params.trimmomatic_bin} SE \
+        ${reads} \
+        ${sample_id}_trimmed.fastq.gz \
+        SLIDINGWINDOW:4:20 \
+        MINLEN:36
     """
 }

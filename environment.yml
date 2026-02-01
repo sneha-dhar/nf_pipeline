@@ -1,0 +1,27 @@
+name: nf_pipeline
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+
+dependencies:
+  - python=3.10
+
+  # Workflow manager
+  - nextflow
+
+  # QC
+  - fastqc
+
+  # Trimming
+  - trimmomatic
+
+  # Alignment
+  - bwa
+  - samtools
+
+  # Variant calling
+  - bcftools
+
+  # Utilities
+  - openjdk
