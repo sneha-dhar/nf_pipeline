@@ -86,7 +86,7 @@ All outputs are generated inside the Nextflow `work/` directory.
 ---
 
 ## Project Structure 
-
+```bash
 nf_pipeline/
 │
 ├── main.nf
