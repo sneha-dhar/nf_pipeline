@@ -115,15 +115,15 @@ cd nf_pipeline
 
 ## Create and Activate Conda Environment
 
-```bash
+
 conda env create -f environment.yml
 conda activate bnf
 
 ---
-How to Run the Pipeline
+## How to Run the Pipeline
 
 From the project directory
-```bash
+
 nextflow run main.nf
 nextflow run main.nf -resume
 
